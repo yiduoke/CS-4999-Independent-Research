@@ -7,7 +7,7 @@ from skimage.segmentation import random_walker
 
 orig_img = img_as_float(io.imread("demo_imgs/png.png"))
 img = orig_img[...,2]
-#plt.xlim([0, 0.2]) # magnify the part that actually as things going on
+#plt.xlim([0, 0.2]) # magnify the part that actually has things going on
 plot = plt.hist(img.flat, bins=80, range=(0,1))
 #plt.savefig("plot.png")
 
