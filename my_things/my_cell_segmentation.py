@@ -9,6 +9,7 @@ from sklearn.preprocessing import normalize
 from scipy.misc import toimage
 from matplotlib import cm
 
+# 3 x height x width in TIFF
 # normalizing a given image (path) and making it all positive within range [0,1]
 def make_img_positive_0_1(img_path):
     array = img_path.split('/')
@@ -17,20 +18,28 @@ def make_img_positive_0_1(img_path):
     orig_img = Image.open(img_path)
     img = np.asarray(orig_img)
     img = (orig_img - np.min(orig_img))/np.ptp(orig_img)
+    
+    print(img.shape)
+    
     plt.imshow(img)
     im = Image.fromarray(np.uint8(cm.gist_earth(img)*255))
     im.show()
     im.save(array[0] + '/' + array[1] + '/' + name + '.png')
+    return img
 
-for x in range(1,11):
-    if (x != 8): # there's problems with MCF10A/9.tif; "bugger is not large
-        make_img_positive_0_1('../MCF10A/' + str(x) + '.tif')
+#for x in range(1,3):
+#    if (x != 8): # there's problems with MCF10A/9.tif; "bugger is not large
+#        make_img_positive_0_1('../MCF10A/' + str(x) + '.tif')
 
-for x in range(1,11):
-    make_img_positive_0_1('../MDA_231/' + str(x) + '.tif')
+#for x in range(1,3):
+#    make_img_positive_0_1('../MDA_231/' + str(x) + '.tif')
 
 #toimage(img).show()
-#plot = plt.hist(img, bins=80, range=(-2,2))
+x = 1
+img = make_img_positive_0_1('../MCF10A/' + str(x) + '.tif')
+img = img.reshape(-1)
+plot = plt.hist(img, bins=80, range=(0,1))
+plt.savefig("plot.png")
 
 #orig_img = img_as_float(io.imread("../demo_imgs/png.png"))
 #img = orig_img[...,2] # was making it just the blue channel because they were dyed blue
