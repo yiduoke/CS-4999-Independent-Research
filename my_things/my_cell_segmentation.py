@@ -9,6 +9,7 @@ from sklearn.preprocessing import normalize
 from scipy.misc import toimage
 from matplotlib import cm
 
+
 # 3 x height x width in TIFF
 # normalizing a given image (path) and making it all positive within range [0,1]
 def make_img_positive_0_1(img_path):
