@@ -3,6 +3,10 @@ import matplotlib.pyplot as plt
 import tifffile as tiff
 import numpy as np
 import scipy.misc
+import skimage.segmentation as seg
+import skimage.filters as filters
+import skimage.draw as draw
+import skimage.color as color
 
 
 # importing the file, converting it into numpy array, etc
@@ -18,6 +22,7 @@ scipy.misc.imsave('file1_red.png', file1_matrix_0)
 scipy.misc.imsave('file1_green.png', file1_matrix_1)
 scipy.misc.imsave('file1_blue.png', file1_matrix_2)
 
+# supervised segmentation
 # histogram for blue channel
 fig, ax = plt.subplots(1, 1)
 ax.hist(file1_matrix_2.ravel(), bins=32, range=[np.min(file1_matrix_2), np.max(file1_matrix_2)])
@@ -29,3 +34,36 @@ plt.imshow(big_blue)
 plt.show()
 big_blue = np.where(file1_matrix_2 > 150, file1_matrix_2, 0)
 scipy.misc.imsave('file1_blue_supervised_threshold.png', big_blue)
+
+# unsupervised segmentation
+
+# isodata thresholding
+isodata_threshold = filters.threshold_isodata(file1_matrix_2)
+binary = np.where(file1_matrix_2 > isodata_threshold, file1_matrix_2, 0)
+scipy.misc.imsave('isodata.png', binary)
+# really good
+
+# Li thresholding
+li_threshold = filters.threshold_li(file1_matrix_2)
+binary = np.where(file1_matrix_2 > li_threshold, file1_matrix_2, 0)
+scipy.misc.imsave('li.png', binary)
+# bad, but groups cells close to each other together
+
+# local thresholding (smaller block sizes rather than the whole image)
+local_threshold = filters.threshold_local(file1_matrix_2, 15, 'mean')
+binary = np.where(file1_matrix_2 > local_threshold, file1_matrix_2, 0)
+scipy.misc.imsave('local.png', binary)
+# that looked REALLY cool, but NOT what I want
+
+# mean thresholding
+mean_threshold = filters.threshold_mean(file1_matrix_2)
+binary = np.where(file1_matrix_2 > mean_threshold, file1_matrix_2, 0)
+scipy.misc.imsave('mean.png', binary)
+# not helpful, just looks like Li filter (but in a smaller hoop -- just look at the two images)
+
+# minimum thresholding
+minimum_threshold = filters.threshold_minimum(file1_matrix_2)
+binary = np.where(file1_matrix_2 > minimum_threshold, file1_matrix_2, 0)
+scipy.misc.imsave('minimum.png', binary)
+# really good, comparable to isodata
+
