@@ -67,3 +67,23 @@ binary = np.where(file1_matrix_2 > minimum_threshold, file1_matrix_2, 0)
 scipy.misc.imsave('minimum.png', binary)
 # really good, comparable to isodata
 
+# not gonna try multi otsu because it's not what I want
+
+# niblack thresholding
+niblack_image = filters.threshold_niblack(file1_matrix_2, window_size=15, k=0.1)
+scipy.misc.imsave('niblack.png', niblack_image)
+# not helpful; this just looks like a blurring filter
+
+# otsu thresholding
+otsu_threshold = filters.threshold_otsu(file1_matrix_2)
+binary = np.where(file1_matrix_2 > otsu_threshold, file1_matrix_2, 0)
+scipy.misc.imsave('otsu.png', binary)
+# just looks like minimum or isodata, pretty good
+
+# triangle thresholding
+triangle_threshold = filters.threshold_triangle(file1_matrix_2)
+binary = np.where(file1_matrix_2 > triangle_threshold, file1_matrix_2, 0)
+scipy.misc.imsave('triangle.png', binary)
+# not good, like Li
+
+# not going to try Yen because it assumes high intensity is forground, and we have the opposite
