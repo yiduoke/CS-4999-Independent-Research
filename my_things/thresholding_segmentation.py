@@ -25,17 +25,8 @@ for x in range(1, 11):
         scipy.misc.imsave('../MCF10A/'+ str(x) +'_red.png', file1_matrix_0)
         scipy.misc.imsave('../MCF10A/'+ str(x) + '_green.png', file1_matrix_1)
         scipy.misc.imsave('../MCF10A/' + str(x) + '_blue.png', file1_matrix_2)
-
-        # tried supervised segmentation using 150 intensity as threshold
-        '''
-        big_blue = file1_matrix_2 > 150
-        plt.imshow(big_blue)
-        plt.show()
-        big_blue = np.where(file1_matrix_2 > 150, file1_matrix_2, 0)
-        scipy.misc.imsave('file1_blue_supervised_threshold.png', big_blue)
-        '''
         
-        # unsupervised segmentation
+        ###### unsupervised segmentation ######
 
         # isodata thresholding
         isodata_threshold = filters.threshold_isodata(file1_matrix_2)
@@ -90,6 +81,7 @@ for x in range(1, 11):
 
 
 
+###### should be in the middle of code if we wanna use these two things (histogram of intensities and supervised thresholding segmentation)
 
 # histogram for blue channel
 #fig, ax = plt.subplots(1, 1)
@@ -97,3 +89,10 @@ for x in range(1, 11):
 #ax.set_xlim(np.min(file1_matrix_2), np.max(file1_matrix_2));
 #plt.show()
 
+# tried supervised segmentation using 150 intensity as threshold; rigitidy doesn't work too well
+
+#big_blue = file1_matrix_2 > 150
+#plt.imshow(big_blue)
+#plt.show()
+#big_blue = np.where(file1_matrix_2 > 150, file1_matrix_2, 0)
+#scipy.misc.imsave('file1_blue_supervised_threshold.png', big_blue)
